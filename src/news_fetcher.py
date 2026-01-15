@@ -115,12 +115,12 @@ class NewsFetcher:
             logger.error(f"Error fetching news for {company_name}: {e}")
             return []
 
-    def fetch_all_companies_news(self, companies: List[str]) -> Dict[str, List[Dict]]:
+    def fetch_all_companies_news(self, companies: List) -> Dict[str, List[Dict]]:
         """
         Fetch news for multiple companies
 
         Args:
-            companies: List of company names
+            companies: List of company names (strings) or dicts with 'name' and 'search' keys
 
         Returns:
             Dictionary mapping company names to their news articles
@@ -128,8 +128,20 @@ class NewsFetcher:
         results = {}
 
         for company in companies:
-            articles = self.fetch_company_news(company)
-            results[company] = articles
+            # Handle both string and dict formats
+            if isinstance(company, dict):
+                display_name = company.get('name', '')
+                search_query = company.get('search', display_name)
+            else:
+                display_name = company
+                search_query = company
+
+            if not display_name:
+                continue
+
+            logger.info(f"Searching for: {display_name} (query: {search_query})")
+            articles = self.fetch_company_news(search_query)
+            results[display_name] = articles
 
         return results
 

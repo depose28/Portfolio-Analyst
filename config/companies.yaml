@@ -1,37 +1,42 @@
 # Portfolio Companies Configuration
 # Your portfolio of 19 companies
+#
+# Format options:
+# 1. Simple string: "Company Name" (searches for exact name)
+# 2. Advanced: {name: "Display Name", search: "search terms with context"}
+#    Use advanced format for ambiguous names to avoid false positives
 
 companies:
   # Space & Orbital
   - "SpaceX"
-  - "Proteus Space"
-  - "Reflect Orbital"
+  - {name: "Proteus Space", search: "Proteus Space satellite design"}
+  - {name: "Reflect Orbital", search: "Reflect Orbital space mirrors solar"}
 
   # Biotech
-  - "Excision BioTherapeutics"
-  - "Loyal"
+  - {name: "Excision BioTherapeutics", search: "Excision BioTherapeutics gene therapy"}
+  - {name: "Loyal", search: "Loyal dog longevity aging biotech"}
 
   # Fintech
-  - "AirTM"
-  - "Pipe"
-  - "Ethena"
+  - {name: "AirTM", search: "AirTM cross-border payments remittances"}
+  - {name: "Pipe", search: "Pipe revenue financing fintech"}
+  - {name: "Ethena", search: "Ethena crypto stablecoin DeFi"}
 
   # AI & Computing
-  - "D Matrix"
-  - "Lightmatter"
-  - "Rain Neuromorphics"
-  - "Efficient Computer"
-  - "Impossible Computer"
-  - "Skild AI"
-  - "Corgi AI"
+  - {name: "D Matrix", search: "D Matrix AI chips compute"}
+  - {name: "Lightmatter", search: "Lightmatter photonic computing"}
+  - {name: "Rain Neuromorphics", search: "Rain Neuromorphics AI chips"}
+  - {name: "Efficient Computer", search: "Efficient Computer semiconductor processors"}
+  - {name: "Impossible Computer", search: "Impossible Computer Naval Ravikant startup"}
+  - {name: "Skild AI", search: "Skild AI robotics"}
+  - {name: "Corgi AI", search: "Corgi AI insurance reinsurance"}
 
   # Robotics
-  - "Fathom Radiant"
-  - "Apptronik"
-  - "Foundation Robotics"
+  - {name: "Fathom Radiant", search: "Fathom Radiant nuclear microreactors"}
+  - {name: "Apptronik", search: "Apptronik humanoid robots"}
+  - {name: "Foundation Robotics", search: "Foundation Robotics"}
 
   # Other
-  - "Herita"
+  - {name: "Herita", search: "Herita trade finance"}
 
 settings:
   # Look back 7 days for news (you can change this to 14 if you want)
