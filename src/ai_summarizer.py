@@ -43,7 +43,7 @@ class AISummarizer:
         try:
             # Prepare article data for the prompt
             article_text = []
-            for i, article in enumerate(articles[:10], 1):  # Limit to 10 articles
+            for i, article in enumerate(articles[:3], 1):  # Limit to top 3 articles
                 article_text.append(
                     f"{i}. {article['title']}\n"
                     f"   Date: {article['published']}\n"
@@ -53,19 +53,19 @@ class AISummarizer:
             articles_str = "\n".join(article_text)
 
             # Create prompt for Claude
-            prompt = f"""You are analyzing news articles for a portfolio company. Generate a concise, informative paragraph (2-4 sentences) summarizing the key developments for {company_name} based on the following articles from the past week.
+            prompt = f"""Analyze these news headlines about {company_name} and create a brief 2-3 sentence summary for an investor.
 
-Focus on:
-- Major announcements, funding, partnerships, or product launches
-- Significant business developments
-- Market activity or notable achievements
+IMPORTANT INSTRUCTIONS:
+- Work with whatever information is available, even if limited to just headlines
+- Be concise and direct - NO apologies or meta-commentary about limited information
+- Focus on what IS mentioned, not what's missing
+- If only headlines are available, synthesize what you can infer
+- Use confident, factual language
 
-Keep it factual, concise, and investor-focused.
-
-Articles:
+Headlines/Articles:
 {articles_str}
 
-Generate a brief summary paragraph:"""
+Write a concise 2-3 sentence investor summary:"""
 
             # Call Claude API
             message = self.client.messages.create(
