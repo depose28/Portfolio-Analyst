@@ -142,12 +142,18 @@ class DigestGenerator:
             lines.append(f"  {ai_summary}")
             lines.append("")
 
-        # News article links
+        # News article links (top 3)
         if articles:
-            lines.append(f"LINKS ({len(articles)} articles):")
+            total_articles = len(articles)
+            top_articles = articles[:3]  # Limit to top 3
+
+            if total_articles > 3:
+                lines.append(f"LINKS (Top 3 of {total_articles} articles):")
+            else:
+                lines.append(f"LINKS ({total_articles} article{'s' if total_articles > 1 else ''}):")
             lines.append("")
 
-            for i, article in enumerate(articles, 1):
+            for i, article in enumerate(top_articles, 1):
                 lines.append(f"  [{i}] {article['title']}")
                 lines.append(f"      {article['link']}")
                 lines.append(f"      {article.get('source', 'Unknown')} | {article['published']}")
