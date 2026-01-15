@@ -39,5 +39,6 @@ wheels/
 Thumbs.db
 
 # Project specific
-config/companies.yaml
+# Note: companies.yaml is committed so GitHub Actions can use it
+# If you want to keep it private, make your repo private
 *.log

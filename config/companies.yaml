@@ -1,0 +1,41 @@
+# Portfolio Companies Configuration
+# Your portfolio of 19 companies
+
+companies:
+  # Space & Orbital
+  - "SpaceX"
+  - "Proteus Space"
+  - "Reflect Orbital"
+
+  # Biotech
+  - "Excision BioTherapeutics"
+  - "Loyal"
+
+  # Fintech
+  - "AirTM"
+  - "Pipe"
+  - "Ethena"
+
+  # AI & Computing
+  - "D Matrix"
+  - "Lightmatter"
+  - "Rain Neuromorphics"
+  - "Efficient Computer"
+  - "Impossible Computer"
+  - "Skild AI"
+  - "Corgi AI"
+
+  # Robotics
+  - "Fathom Radiant"
+  - "Apptronik"
+  - "Foundation Robotics"
+
+  # Other
+  - "Herita"
+
+settings:
+  # Look back 7 days for news (you can change this to 14 if you want)
+  days_back: 7
+
+  # Set to false to skip funding lookups and make it run faster
+  include_funding: false
