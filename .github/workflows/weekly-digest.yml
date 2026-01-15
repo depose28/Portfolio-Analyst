@@ -1,0 +1,44 @@
+name: Weekly Portfolio Digest
+
+on:
+  # Run every Monday at 8:00 AM UTC (adjust timezone as needed)
+  schedule:
+    - cron: '0 8 * * 1'
+
+  # Allow manual triggering for testing
+  workflow_dispatch:
+
+jobs:
+  send-digest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run portfolio monitor
+        env:
+          SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+        run: |
+          python main.py
+
+      - name: Upload digest artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: digest-${{ github.run_number }}
+          path: output/*.txt
+          retention-days: 30

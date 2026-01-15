@@ -1,0 +1,39 @@
+# Portfolio Companies Configuration
+#
+# Copy this file to companies.yaml and replace with your actual portfolio companies
+#
+# IMPORTANT: Add companies.yaml to .gitignore to keep your portfolio private
+
+companies:
+  # List your portfolio companies here
+  # Use the official company name as it appears in news articles
+
+  # Example fintech companies (replace with your actual companies)
+  - "Stripe"
+  - "Plaid"
+  - "Brex"
+
+  # Example AI companies (replace with your actual companies)
+  - "OpenAI"
+  - "Anthropic"
+  - "Scale AI"
+
+  # Example SaaS companies (replace with your actual companies)
+  - "Notion"
+  - "Airtable"
+  - "Figma"
+
+  # Add your companies here:
+  # - "Your Company Name 1"
+  # - "Your Company Name 2"
+  # - "Your Company Name 3"
+  # ...
+
+# Configuration options (optional)
+settings:
+  # Number of days to look back for news (default: 7)
+  days_back: 7
+
+  # Include funding information (default: true)
+  # Set to false to skip funding lookups and speed up execution
+  include_funding: true
