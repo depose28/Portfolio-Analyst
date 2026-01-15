@@ -3,7 +3,7 @@ Digest Generator Module - Formats portfolio data into a readable email digest
 """
 
 from datetime import datetime
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 
 class DigestGenerator:
@@ -15,7 +15,8 @@ class DigestGenerator:
     def generate_digest(
         self,
         news_data: Dict[str, List[Dict]],
-        funding_data: Dict[str, Dict] = None
+        funding_data: Dict[str, Dict] = None,
+        ai_summaries: Dict[str, Optional[str]] = None
     ) -> str:
         """
         Generate a complete email digest
@@ -23,6 +24,7 @@ class DigestGenerator:
         Args:
             news_data: Dictionary mapping company names to news articles
             funding_data: Optional dictionary mapping company names to funding info
+            ai_summaries: Optional dictionary mapping company names to AI-generated summaries
 
         Returns:
             Formatted digest as a string
@@ -55,10 +57,12 @@ class DigestGenerator:
 
         # Companies with news
         for company_name, articles in companies_with_news:
+            ai_summary = ai_summaries.get(company_name) if ai_summaries else None
             lines.append(self._format_company_section(
                 company_name,
                 articles,
-                funding_data.get(company_name) if funding_data else None
+                funding_data.get(company_name) if funding_data else None,
+                ai_summary
             ))
             lines.append("")
 
@@ -112,7 +116,8 @@ class DigestGenerator:
         self,
         company_name: str,
         articles: List[Dict],
-        funding_info: Dict = None
+        funding_info: Dict = None,
+        ai_summary: Optional[str] = None
     ) -> str:
         """Format a single company's section"""
         lines = []
@@ -130,19 +135,22 @@ class DigestGenerator:
                 lines.append(f"Funding: {funding_summary}")
                 lines.append("")
 
-        # News articles
+        # AI-generated summary (if available)
+        if ai_summary:
+            lines.append("SUMMARY:")
+            lines.append("")
+            lines.append(f"  {ai_summary}")
+            lines.append("")
+
+        # News article links
         if articles:
-            lines.append(f"RECENT NEWS ({len(articles)} articles):")
+            lines.append(f"LINKS ({len(articles)} articles):")
             lines.append("")
 
             for i, article in enumerate(articles, 1):
                 lines.append(f"  [{i}] {article['title']}")
-                lines.append(f"      Source: {article.get('source', 'Unknown')} | Date: {article['published']}")
-                lines.append(f"      Link: {article['link']}")
-
-                if article.get('summary'):
-                    lines.append(f"      {article['summary']}")
-
+                lines.append(f"      {article['link']}")
+                lines.append(f"      {article.get('source', 'Unknown')} | {article['published']}")
                 lines.append("")
         else:
             lines.append("No news this week.")

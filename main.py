@@ -15,6 +15,7 @@ from src.news_fetcher import NewsFetcher
 from src.funding_tracker import FundingTracker
 from src.digest_generator import DigestGenerator
 from src.email_sender import EmailSender
+from src.ai_summarizer import AISummarizer
 
 # Configure logging
 logging.basicConfig(
@@ -74,6 +75,11 @@ def main():
         default=7,
         help='Number of days to look back for news (default: 7)'
     )
+    parser.add_argument(
+        '--skip-ai-summaries',
+        action='store_true',
+        help='Skip AI-generated summaries (faster, but less intelligent)'
+    )
 
     args = parser.parse_args()
 
@@ -127,10 +133,29 @@ def main():
     else:
         logger.info("Skipping funding information (--skip-funding flag set)")
 
+    # Generate AI summaries (optional)
+    ai_summaries = None
+    if not args.skip_ai_summaries:
+        anthropic_api_key = get_env_variable('ANTHROPIC_API_KEY', required=False)
+        if anthropic_api_key:
+            logger.info("Generating AI summaries with Claude...")
+            try:
+                ai_summarizer = AISummarizer(anthropic_api_key)
+                ai_summaries = ai_summarizer.summarize_all_companies(news_data)
+                logger.info("AI summaries generated successfully")
+            except Exception as e:
+                logger.warning(f"Failed to generate AI summaries: {e}")
+                logger.info("Continuing without AI summaries...")
+        else:
+            logger.warning("ANTHROPIC_API_KEY not set - skipping AI summaries")
+            logger.info("Set ANTHROPIC_API_KEY environment variable to enable AI summaries")
+    else:
+        logger.info("Skipping AI summaries (--skip-ai-summaries flag set)")
+
     # Generate digest
     logger.info("Generating digest...")
     digest_gen = DigestGenerator()
-    digest_body = digest_gen.generate_digest(news_data, funding_data)
+    digest_body = digest_gen.generate_digest(news_data, funding_data, ai_summaries)
     subject = digest_gen.generate_subject_line(news_data)
 
     # Save digest to file (for debugging/logging)
