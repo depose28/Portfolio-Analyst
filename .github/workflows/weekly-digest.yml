@@ -1,9 +1,9 @@
 name: Weekly Portfolio Digest
 
 on:
-  # Run every Monday at 8:00 AM UTC (adjust timezone as needed)
+  # Run every Monday at 7:00 AM UTC (8:00 AM CET / 9:00 AM CEST)
   schedule:
-    - cron: '0 8 * * 1'
+    - cron: '0 7 * * 1'
 
   # Allow manual triggering for testing
   workflow_dispatch:
