@@ -74,7 +74,7 @@ class FundingTracker:
         Get funding information for multiple companies
 
         Args:
-            companies: List of company names
+            companies: List of company names (strings) or dicts with 'name' and 'search' keys
 
         Returns:
             Dictionary mapping company names to their funding info
@@ -82,8 +82,19 @@ class FundingTracker:
         results = {}
 
         for company in companies:
-            logger.info(f"Checking funding info for: {company}")
-            results[company] = self.get_funding_info(company)
+            # Handle both string and dict formats
+            if isinstance(company, dict):
+                display_name = company.get('name', '')
+                search_query = display_name  # Use display name for funding search
+            else:
+                display_name = company
+                search_query = company
+
+            if not display_name:
+                continue
+
+            logger.info(f"Checking funding info for: {display_name}")
+            results[display_name] = self.get_funding_info(search_query)
             # Be respectful with rate limiting
             time.sleep(2)
 
